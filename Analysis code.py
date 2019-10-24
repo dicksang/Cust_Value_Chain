@@ -7,13 +7,14 @@ Created on Mon Sep 16 21:36:23 2019
 
 import os.path
 
-working_path = 'C:\\Users\\Dick Sang\\Desktop\\6. Data Analytics\\3. PolyU Research Assistant\\1. Projects\\3. Cust Value Chain Analysis\\2. Apple Podcast\\testing\\'
+dict_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\0. LIWC\\'
+working_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\2. Apple Podcast_speeches\\testing\\'
 
 os.chdir(working_path)
 import pandas as pd
 
 import liwc
-parse, category_names = liwc.load_token_parser('LIWC.dic')
+parse, category_names = liwc.load_token_parser(dict_path + 'Cust_val_chain_keywords.dic')
 
 import nltk
 from nltk.tokenize import sent_tokenize, word_tokenize
@@ -75,4 +76,4 @@ for file in file_list:
             df_freq = pd.DataFrame.from_dict(freq, orient='index')
             df_freq.to_csv(working_path + 'summary.csv', sep = ',')
             
-    
+
