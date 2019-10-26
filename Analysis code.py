@@ -8,7 +8,8 @@ Created on Mon Sep 16 21:36:23 2019
 import os.path
 
 dict_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\0. LIWC\\'
-working_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\2. Apple Podcast_speeches\\testing\\'
+#working_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\2. Apple Podcast_speeches\\testing\\'
+working_path = "C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\2. Apple Podcast_speeches\\import files\\"
 
 os.chdir(working_path)
 import pandas as pd
@@ -30,11 +31,32 @@ from collections import Counter
 # locate the files inside the current folder
 file_list =  glob.glob("*.DOC")
 
-simplified_file_name = file_list[-1]
+# Initialize df
+df_freq_summary = pd.DataFrame(columns=[
+                                        'File', \
+                                        'Functional', \
+                                        'Experimental', \
+                                        'Symbolic', \
+                                        'Cost', \
+                                        'Optimistic', \
+                                        'Affective' \
+                                        ])
+
+df_freq_summary = df_freq_summary.astype({'File': 'str'})
+df_freq_summary = df_freq_summary.astype({'Functional': 'int'})
+df_freq_summary = df_freq_summary.astype({'Experimental': 'int'})
+df_freq_summary = df_freq_summary.astype({'Symbolic': 'int'})
+df_freq_summary = df_freq_summary.astype({'Cost': 'int'})
+df_freq_summary = df_freq_summary.astype({'Optimistic': 'int'})
+df_freq_summary = df_freq_summary.astype({'Affective': 'int'})
+
+i = 0
 
 for file in file_list:
         if "~" not in file:
+            
             file_name = working_path + file
+            short_file_name = file[:-4] # remove .doc
                     
             # open word document
             import win32com.client
@@ -73,7 +95,10 @@ for file in file_list:
     
             #count the number of keywords available
             # freq = nltk.FreqDist(word_tokens3)
-            df_freq = pd.DataFrame.from_dict(freq, orient='index')
-            df_freq.to_csv(working_path + 'summary.csv', sep = ',')
             
-
+            df_freq_summary = df_freq_summary.append(word_counts, ignore_index=True)
+            df_freq_summary.set_value(i, 'File', short_file_name)
+            
+            i = i + 1
+            
+df_freq_summary.to_csv('summary.csv', sep = ',')
