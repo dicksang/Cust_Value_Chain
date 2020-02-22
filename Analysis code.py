@@ -7,9 +7,13 @@ Created on Mon Sep 16 21:36:23 2019
 
 import os.path
 
-dict_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\0. LIWC\\'
-#working_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\2. Apple Podcast_speeches\\testing\\'
-working_path = "C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\1. Projects\\3. Cust Value Chain Analysis\\2. Apple Podcast_speeches\\import files\\"
+dict_path = 'C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\' \
+            '1. Projects\\3. Cust Value Chain Analysis\\2. LIWC\\'
+working_path = "C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\" \
+               "1. Projects\\3. Cust Value Chain Analysis\\" \
+               "1. Apple Podcast_speeches\\import files\\"
+export_path = "C:\\Users\\Dick Sang\\Desktop\\5. Data Analytics\\3. PolyU RA\\"\
+              "1. Projects\\3. Cust Value Chain Analysis\\"
 
 os.chdir(working_path)
 import pandas as pd
@@ -39,7 +43,8 @@ df_freq_summary = pd.DataFrame(columns=[
                                         'Symbolic', \
                                         'Cost', \
                                         'Optimistic', \
-                                        'Affective' \
+                                        'Affective', \
+                                        'Total_WC'\
                                         ])
 
 df_freq_summary = df_freq_summary.astype({'File': 'str'})
@@ -49,6 +54,7 @@ df_freq_summary = df_freq_summary.astype({'Symbolic': 'int'})
 df_freq_summary = df_freq_summary.astype({'Cost': 'int'})
 df_freq_summary = df_freq_summary.astype({'Optimistic': 'int'})
 df_freq_summary = df_freq_summary.astype({'Affective': 'int'})
+df_freq_summary = df_freq_summary.astype({'Total_WC': 'int'})
 
 i = 0
 
@@ -93,6 +99,8 @@ for file in file_list:
             word_counts = Counter([category for token in word_tokens3
                                 for category in parse(token)])
     
+            word_counts['Total_WC'] = len(text4.split())
+    
             #count the number of keywords available
             # freq = nltk.FreqDist(word_tokens3)
             
@@ -101,4 +109,4 @@ for file in file_list:
             
             i = i + 1
             
-df_freq_summary.to_csv('speech_summary.csv', sep = ',')
+df_freq_summary.to_csv(export_path + '1. speech_summary.csv', sep = ',')
